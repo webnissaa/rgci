@@ -76,7 +76,7 @@ const AddLOTForm = ({ isEdit }: { isEdit?: boolean }) => {
             resetText: "Cancel",
           },
           onReset: () => {
-            navigate(`/patients/${id}/update-patient`, {
+            navigate(`/patients/${id}`, {
               state: {
                 patientId: id,
                 isEdit: false,

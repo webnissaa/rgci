@@ -65,7 +65,6 @@ export const store = configureStore({
       userTableApi.middleware,
       pieChartApi.middleware,
     ]),
-  //@ts-ignore
   devTools: process.env.NODE_ENV !== "production",
 })
 

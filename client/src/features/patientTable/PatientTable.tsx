@@ -36,7 +36,7 @@ import {
   CloseCircleTwoTone,
 } from "@ant-design/icons"
 import ImportData from "../importData/ImportData"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import "./PatientTable.module.css"
 import {
   brainMetastasesOptions,
@@ -70,8 +70,6 @@ export function PatientTable() {
   const [url, setUrl] = useState<string>("")
 
   const [form] = Form.useForm()
-
-  const [searchParams, setSearchParams] = useSearchParams()
 
   const { data, error, isLoading, refetch } = useGetPatientsQuery(url, {
     refetchOnMountOrArgChange: true,
@@ -324,6 +322,11 @@ export function PatientTable() {
       valueEnum: handleFilterEnums(leptomeningealMetastasesOptions),
     },
     {
+      title: "LM Mets CSF",
+      dataIndex: "lm_mets_csf",
+      valueEnum: handleFilterEnums(lmMetsOptions),
+    },
+    {
       title: "Histology",
       dataIndex: "histology",
       valueEnum: handleFilterEnums(histoloyOptions),
@@ -384,6 +387,7 @@ export function PatientTable() {
     { title: "Extrathoracic Mets", dataIndex: "extrathoracic_mets" },
     { title: "Brain Mets", dataIndex: "brain_mets" },
     { title: "Leptomeningeal Mets", dataIndex: "letptomeningeal_mets" },
+    { title: "LM Mets CSF", dataIndex: "lm_mets_csf" },
     { title: "Histology", dataIndex: "histology" },
     { title: "PDL1", dataIndex: "pdl1" },
     { title: "BRG1", dataIndex: "brg1" },
@@ -455,6 +459,28 @@ export function PatientTable() {
             dob: { show: true },
             // age: { show: true },
             gender: { show: true },
+            state: { show: false },
+            smoking: { show: false },
+            family_history: { show: false },
+            gene: { show: true },
+            variant: { show: false },
+            treatment_at_rgci: { show: false },
+            phone_number: { show: false },
+            status_at_last_follow_up: { show: true },
+            date_of_last_follow_up: { show: true },
+            date_of_hpe_diagnosis: { show: false },
+            ecog_ps: { show: false },
+            extrathoracic_mets: { show: false },
+            brain_mets: { show: false },
+            letptomeningeal_mets: { show: false },
+            lm_mets_csf: { show: false },
+            histology: { show: false },
+            pdl1: { show: false },
+            brg1: { show: false },
+            ttf1: { show: false },
+            small_cell_transformation_date: { show: false },
+            vaf: { show: false },
+            co_mutation: { show: false },
           },
         }}
         actionRef={actionRef}
@@ -468,10 +494,10 @@ export function PatientTable() {
         columns={columns}
         rowKey="cr_number"
         pagination={{
-          current: parseInt(searchParams.get("page") || "1"),
-          pageSize: parseInt(searchParams.get("rowsPerPage") || "10"),
+          current: params?.page || 1,
+          pageSize: params?.rowsPerPage || 10,
           showQuickJumper: true,
-          pageSizeOptions: ["10", "20", "30", "40", "50", "100"],
+          pageSizeOptions: ["10", "20", "30", "40", "50"],
           defaultCurrent: 1,
           total: data?.totalCount,
           onChange(page, pageSize) {
@@ -481,7 +507,6 @@ export function PatientTable() {
               newParams as unknown as Record<string, string>,
             )
             const url = urlSearchParams.toString()
-            setSearchParams(url)
             setUrl(url)
           },
           showSizeChanger: true,
@@ -778,6 +803,10 @@ export function PatientTable() {
                     width={"sm"}
                     options={leptomeningealMetastasesOptions}
                   />
+                </ProForm.Item>
+
+                <ProForm.Item label="LM Mets CSF" name="lm_mets_csf">
+                  <ProFormSelect width={"md"} options={lmMetsOptions} />
                 </ProForm.Item>
                 <ProForm.Item label="Histology" name="histology">
                   <ProFormSelect width={"md"} options={histoloyOptions} />
